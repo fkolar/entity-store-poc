@@ -1,0 +1,11 @@
+<p>Checkout details</p>
+
+
+
+<div *ngIf="(requisition$ | async) as pr">
+   <a href="#" (click)="changeQty(pr)"> Increase Quantity for firsr Line item</a>
+  <pre>
+
+    {{pr | json}}
+    </pre>
+</div>
