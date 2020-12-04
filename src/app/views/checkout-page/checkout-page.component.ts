@@ -20,10 +20,10 @@ export class CheckoutPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.requisition$ = this.entityStore.get('identity-3');
+    this.requisition$ = this.entityStore.get('identity-1');
   }
 
-  changeQty(pr: Requisition) {
+  changeQty(pr: Requisition): void {
     pr.lineItems[0].quantity++;
     console.log('Qantity Changed by User: ', pr.lineItems[0].quantity);
   }

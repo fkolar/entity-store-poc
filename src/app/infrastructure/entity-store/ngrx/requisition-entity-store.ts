@@ -8,6 +8,8 @@ import {Inject, Injectable} from '@angular/core';
  * This simulates concrete library implementations that supposed to comunicate with REST API
  * let's say this would implement ngrx data service collection
  *
+ * see EntityCollectionServiceBase
+ *
  */
 @Injectable()
 export class RequisitionEntityStoreService implements EntityStore<Requisition> {

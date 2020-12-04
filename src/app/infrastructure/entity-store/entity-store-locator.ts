@@ -1,7 +1,5 @@
 import {Inject, Injectable} from '@angular/core';
-import {EntityStore, REQS} from './entity-store';
-import {EntityComposite} from './types';
-import {Requisition} from '../../domain/data/requisition.entity';
+import {EntityStore} from './entity-store';
 import {ENTITY_STORES} from './entity-store.module';
 
 @Injectable({providedIn: 'root'})
