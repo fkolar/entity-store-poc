@@ -1,38 +1,38 @@
-import {SimpleChange} from '@angular/core';
-import {environment} from '../../../../environments/environment';
+import {EntityModelStateChanged, EntityStateMonitor} from '../domain-state-monitor.service';
 
-export function Watch<T = any>(what: string) {
+export function Watch<T = any>(event: EntityModelStateChanged) {
   const cachedValueKey = Symbol();
   const isFirstChangeKey = Symbol();
 
   return (target: any, key: PropertyKey, index?: number) => {
     const values = new Map<any, T>();
-    if (!environment.monitor) {
-      return;
-    }
 
     Object.defineProperty(target, key, {
       configurable: true,
       enumerable: true,
       set: function(value) {
-        // change status of "isFirstChange"
+
         this[isFirstChangeKey] = this[isFirstChangeKey] === undefined;
         if (this[isFirstChangeKey] || this[cachedValueKey] === value) {
           return;
         }
         const oldValue = this[cachedValueKey];
         this[cachedValueKey] = value;
+        const entityStateMonitor = EntityStateMonitor.getInstance();
+        if (!entityStateMonitor.monitor) {
+          return;
+        }
+        console.log('Watch Decorator detected chane  => ', `oldValue: ${oldValue}  , currentValue: ${this[cachedValueKey]}`);
 
-        const simpleChange: SimpleChange = {
-          firstChange: this[isFirstChangeKey],
-          previousValue: oldValue,
+        entityStateMonitor.entityStateChanges$.next({
+          fetchStrategy: event.fetchStrategy,
+          type: event.type,
           currentValue: this[cachedValueKey],
-          isFirstChange: () => this[isFirstChangeKey],
-        };
-
-        // here inject some EntityMonitoringService and emit event that this is changed and based on passed inputs to this WATCH
-        // EntityStores updates or resets the entity or do some other actions.
-        // console.log('Watcher => ', this[cachedValueKey]);
+          previousValue: oldValue,
+          property: key as string,
+          context: this['__context__'],
+          subContext: this
+        });
       },
       get: function() {
         return this[cachedValueKey];

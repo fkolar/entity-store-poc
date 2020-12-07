@@ -4,8 +4,17 @@
 
 <div *ngIf="(requisition$ | async) as pr">
    <a href="#" (click)="changeQty(pr)"> Increase Quantity for 1st Line item</a>
-  <pre>
+   <pre>
+      Name : {{pr.title}}
+      Requestor: {{pr.requester.fullName}}
+         [
+          <span *ngFor="let li of pr.lineItems">
+            &#123;
+              Name: {{li.name}}
+              Quantity: {{li.quantity}}
+            &#125;,
+          </span>
+          ]
 
-    {{pr | json}}
-    </pre>
+   </pre>
 </div>

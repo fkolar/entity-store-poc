@@ -2,7 +2,6 @@ import {EntityComposite, ValueComposite} from '../../infrastructure/entity-store
 import {Watch} from '../../infrastructure/entity-store/rules/watch.decorator';
 
 export class Requisition implements EntityComposite {
-  state: 'prototype' | 'instance' = 'prototype';
   className = 'Requisition';
   title: string;
 
@@ -13,7 +12,7 @@ export class Requisition implements EntityComposite {
 
 
   addLineItem(lineItem: LineItem): void {
-    Object.defineProperty(lineItem, '__parent_', {value: this, configurable: true, enumerable: false, writable: false});
+      Object.defineProperty(lineItem, '__context__', {value: this, configurable: true, enumerable: false, writable: false});
     this.lineItems.push(lineItem);
   }
 }
@@ -22,7 +21,7 @@ export class LineItem implements ValueComposite {
 
   name: string;
 
-  @Watch('LineItem')
+  @Watch({type: 'UPDATE', fetchStrategy: 'PUSH_AND_FETCH'})
   public quantity: number = 0;
 
   get className(): string {

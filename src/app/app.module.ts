@@ -40,7 +40,7 @@ export function createReqsDB(): Requisition[] {
       new User(`uid-${i}`, `fullName-${i}`));
 
     for (let l = 1; l < 50; l++) {
-      pr.lineItems.push(new LineItem(`name-${l}`, 3));
+      pr.addLineItem(new LineItem(`name-${l}`, 3));
     }
     prs.push(pr);
   }
