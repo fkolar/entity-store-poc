@@ -31,8 +31,9 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
 
 
   changeQty(pr: Requisition): void {
-    pr.lineItems[0].quantity++;
     console.log('Qantity Changed by User: ', pr.lineItems[0].quantity);
+    pr.lineItems[0].quantity++;
+
   }
 
 
