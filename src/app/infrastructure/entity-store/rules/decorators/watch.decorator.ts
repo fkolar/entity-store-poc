@@ -1,4 +1,4 @@
-import {EntityModelStateChanged, EntityStateMonitor} from '../domain-state-monitor.service';
+import {EntityModelStateChanged, EntityStateMonitor} from '../../domain-state-monitor.service';
 
 export function Watch<T = any>(event: EntityModelStateChanged) {
   const cachedValueKey = Symbol();

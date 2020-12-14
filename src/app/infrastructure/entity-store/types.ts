@@ -1,5 +1,5 @@
 export interface Composite {
-  readonly className: string;
+  className: string;
 }
 
 export interface EntityComposite extends Composite {
