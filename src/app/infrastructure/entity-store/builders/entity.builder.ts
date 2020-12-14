@@ -13,13 +13,13 @@ export class EntityBuilder<TModel extends EntityComposite> {
   instanceFor(model: Type<TModel>, typeName: string): TModel {
     this.internalState = new model();
     this.internalState.className = typeName;
-    const proxy = new Proxy(this.internalState, new EntityStateHandler<TModel>());
+    const proxy = new Proxy(this.internalState, new EntityStateHandler<TModel>(this.internalState));
     return proxy;
   }
 
   instanceFrom(model: TModel, typeName: string): TModel {
     this.internalState = model;
-    const proxy = new Proxy(this.internalState, new EntityStateHandler<TModel>());
+    const proxy = new Proxy(this.internalState, new EntityStateHandler<TModel>(this.internalState));
     return proxy;
   }
 
@@ -39,21 +39,19 @@ export class EntityBuilder<TModel extends EntityComposite> {
 
 
 export class EntityStateHandler<TModel> {
-  target: any;
 
-
-  constructor() {
+  constructor(private targetState: TModel) {
   }
 
 
   get(t: any, p: PropertyKey, r: any): any {
-    return this.target[p];
+    return this.targetState[p];
   }
 
   set(target: TModel, key: PropertyKey, value: any, receiver: any): boolean {
     console.log('Setting internally property', key);
 
-    target[key] = value;
+    this.targetState[key] = value;
     return true;
   }
 

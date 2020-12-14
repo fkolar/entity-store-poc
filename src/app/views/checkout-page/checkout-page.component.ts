@@ -22,11 +22,13 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
     const requisition = this.eb.instanceFor(Requisition, 'Requisition');
     requisition.title = 'new iPhone';
     requisition.amount = 111;
+    console.log('requisition.title = ', requisition.title);
+
     const requisition1 = this.eb.newInstance();
+
     console.log(requisition1);
 
 
