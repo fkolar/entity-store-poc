@@ -1,5 +1,4 @@
 import {EntityComposite, ValueComposite} from '../../infrastructure/entity-store/types';
-import {Watch} from '../../infrastructure/entity-store/rules/decorators/watch.decorator';
 
 export class Requisition implements EntityComposite {
   className = 'Requisition';
@@ -20,9 +19,11 @@ export class Requisition implements EntityComposite {
 }
 
 export class LineItem implements ValueComposite {
-  @Watch({type: 'UPDATE', fetchStrategy: 'PUSH_AND_FETCH'})
+  // @Trigger({propageTo: {'companyCode', 'accounting'}, action: Default })
+  // @NotEmpty()
   public quantity: number = 0;
 
+  // @OnStateChange('quantity', Handler1)
   name: string;
 
 

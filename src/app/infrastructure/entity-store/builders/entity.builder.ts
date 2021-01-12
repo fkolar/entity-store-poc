@@ -1,6 +1,7 @@
 import {Injectable, Type} from '@angular/core';
 import {EntityStoreFactory} from '../entity-store-factory';
 import {EntityComposite} from '../types';
+import {FormGroup} from '@angular/forms';
 
 @Injectable({providedIn: 'root'})
 export class EntityBuilder<TModel extends EntityComposite> {
@@ -19,6 +20,11 @@ export class EntityBuilder<TModel extends EntityComposite> {
 
   instanceFrom(model: TModel, typeName: string): TModel {
     this.internalState = model;
+    const proxy = new Proxy(this.internalState, new EntityStateHandler<TModel>(this.internalState));
+    return proxy;
+  }
+
+  instanceFrom(model: FormGroup, typeName: string): TModel {
     const proxy = new Proxy(this.internalState, new EntityStateHandler<TModel>(this.internalState));
     return proxy;
   }
@@ -50,6 +56,18 @@ export class EntityStateHandler<TModel> {
 
   set(target: TModel, key: PropertyKey, value: any, receiver: any): boolean {
     console.log('Setting internally property', key);
+    // this.store.sendAction
+
+    // const classDef:ClassRuleDef =  type[CLASS_META];
+    //
+    // const field = FieldRuleDEf = classDef.fields[key];
+    //
+    // rule1: TriggerRule =  field.rules[0]
+    // rule1.execute(target, new)
+
+
+
+
 
     this.targetState[key] = value;
     return true;
