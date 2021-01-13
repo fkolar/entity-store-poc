@@ -1,8 +1,6 @@
-import {Predicate} from './predicate';
+import {BasePredicate} from './grammar/predicate';
 
-export class QuerySpecification<TModel> {
+export class QuerySpecification<TModel> extends BasePredicate<TModel> {
 
 
-  constructor(private predicateSpecification: Predicate<TModel>) {
-  }
 }

@@ -5,8 +5,8 @@ import {EntityStoreFactory} from '../../infrastructure/entity-store/entity-store
 import {Observable} from 'rxjs';
 import {EntityStateMonitor} from '../../infrastructure/entity-store/domain-state-monitor.service';
 import {EntityBuilder} from '../../infrastructure/entity-store/builders/entity.builder';
-import {QueryBuilder} from '../../infrastructure/entity-store/builders/query.builder';
-import {Query} from '../../infrastructure/entity-store/query/query';
+import {newQueryBuilder, QueryBuilder} from '../../infrastructure/entity-store/builders/query.builder';
+import {eq} from '../../infrastructure/entity-store/query/query-expressions';
 
 @Component({
   selector: 'app-checkout-page',
@@ -42,11 +42,14 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
 
 
   initQuery(): void {
-    const query: Query<Requisition> = this.qb.newQuery(Requisition);
-    query.where(
-      query.eq('title', 'PR12')
+    const queryBuilder = newQueryBuilder<Requisition>(Requisition);
+    queryBuilder.where(
+      eq('title', '1234')
     );
-    const prList$ = query.select();
+    const query = queryBuilder.newQuery();
+    query.project('title').orderBy({field: 'title'})
+
+    const observable$ = query.select();
   }
 
   ngOnDestroy(): void {
